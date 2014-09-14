@@ -1,0 +1,15 @@
+(ns clj-chirp.formatter-spec
+  (:require [speclj.core :refer :all]
+            [clj-chirp.formatter :refer :all]))
+
+(describe "Posts are translated into user friendly strings."
+          (it "Nothing to format."
+              (should= ""
+                       (format-post {})))
+          (describe "Post to format"
+                    (it "Time unit is singular"
+                        (should= "post (1 second ago)"
+                                 (format-post {:content "post" :time-diff 1 :time-unit "second"})))
+                    (it "Time unit is prular"
+                        (should= "post (2 seconds ago)"
+                                 (format-post {:content "post" :time-diff 2 :time-unit "second"})))))

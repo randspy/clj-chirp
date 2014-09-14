@@ -6,34 +6,34 @@
 (describe "Diffrence in time."
           (with basic-date (time/date-time 2014))
           (it "There is no diffrence between dates."
-              (should= {:unit "second" :value 0}
+              (should= {:time-unit "second" :time-diff 0}
                        (time-diffrence @basic-date @basic-date)))
           (describe "There is a diffrence in time."
               (it "In seconds."
-                  (should= {:unit "second" :value 2}
+                  (should= {:time-unit "second" :time-diff 2}
                            (time-diffrence @basic-date
                                            (time/date-time 2014 01 01 00 00 02))))
               (it "In minutes."
-                  (should= {:unit "minute" :value 4}
+                  (should= {:time-unit "minute" :time-diff 4}
                            (time-diffrence @basic-date
                                            (time/date-time 2014 01 01 00 04))))
               (it "In hours."
-                  (should= {:unit "hour" :value 2}
+                  (should= {:time-unit "hour" :time-diff 2}
                            (time-diffrence @basic-date
                                            (time/date-time 2014 01 01 02))))
               (it "In days."
-                  (should= {:unit "day" :value 3}
+                  (should= {:time-unit "day" :time-diff 3}
                            (time-diffrence @basic-date
                                            (time/date-time 2014 01 04))))
               (it "In months."
-                  (should= {:unit "month" :value 4}
+                  (should= {:time-unit "month" :time-diff 4}
                            (time-diffrence @basic-date
                                            (time/date-time 2014 05))))
               (it "In years."
-                  (should= {:unit "year" :value 10}
+                  (should= {:time-unit "year" :time-diff 10}
                            (time-diffrence @basic-date
                                            (time/date-time 2024)))))
           (it "Reverced dates will give this same value."
-              (should= {:unit "second" :value 2}
+              (should= {:time-unit "second" :time-diff 2}
                        (time-diffrence (time/date-time 2014 01 01 00 00 02)
                                        @basic-date))))

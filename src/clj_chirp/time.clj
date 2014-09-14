@@ -19,7 +19,7 @@
           diff-in-unit (unit-function time-diff)]
       (if (or (not= 0 diff-in-unit)
               (rest-of-seq-nil? units))
-        {:unit (:text (first units)) :value diff-in-unit}
+        {:time-unit (:text (first units)) :time-diff diff-in-unit}
         (recur (rest units))))))
 
 (defn time-diffrence [date-older date-newer]

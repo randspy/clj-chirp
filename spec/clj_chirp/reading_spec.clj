@@ -8,6 +8,11 @@
           (it "There is no user posts"
               (should= {}
                        (read-user-posts [] "user bob")))
+          (it "There is no match for the user"
+              (should= {}
+                       (read-user-posts [{:user "user bob"
+                                          :posts [{:content "post" :timestamp @timestamp}]}]
+                                        "user robert")))
           (it "There is a post"
               (should= {:user "user bob" :posts [{:content "post" :timestamp @timestamp}
                                                  {:content "other post" :timestamp @timestamp}]}

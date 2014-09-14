@@ -9,13 +9,18 @@
 
 (def all-posts (atom []))
 
+(defn print-prompt []
+  (print "> ")
+  (flush))
+
+
 (defn console-loop []
   (loop []
+    (print-prompt)
     (let [user-input (read-line)]
       (if (exit-program? user-input)
         (println "FINISHED")
         (do (usecases/usecase-execution all-posts user-input (time/current-time))
-            (println @all-posts)
             (recur))))))
 
 (defn -main [& args]
