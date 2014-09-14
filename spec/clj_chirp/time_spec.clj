@@ -4,7 +4,7 @@
             [clj-time.core :as time]))
 
 (describe "Diffrence in time."
-          (with basic-date (time/date-time 2014 01 01))
+          (with basic-date (time/date-time 2014))
           (it "There is no diffrence between dates."
               (should= {:unit "second" :value 0}
                        (time-diffrence @basic-date @basic-date)))
