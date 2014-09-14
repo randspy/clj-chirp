@@ -9,14 +9,17 @@
 
 (def all-posts (atom []))
 
+(defn usecase-execution [posts user-input]
+  (let [user-input-after-split (content/split-user-from-content user-input "->")
+        user-posts (posting/post @posts user-input-after-split (time/current-time))]
+    (reset! posts user-posts)))
+
 (defn console-loop []
   (loop []
     (let [user-input (read-line)]
       (if (exit-program? user-input)
         (println "FINISHED")
-        (do (let [user-data (content/split-user-from-content user-input "->")
-                  posts (posting/post @all-posts user-data (time/current-time))]
-              (reset! all-posts posts))
+        (do (usecase-execution all-posts user-input)
             (println @all-posts)
             (recur))))))
 
