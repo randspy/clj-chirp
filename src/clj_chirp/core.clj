@@ -1,5 +1,5 @@
 (ns clj-chirp.core
-  (:require [clj-chirp.content :as content]
+  (:require [clj-chirp.usecases :as usecases]
             [clj-chirp.posting :as posting]
             [clj-chirp.time :as time])
   (:gen-class))
@@ -9,17 +9,12 @@
 
 (def all-posts (atom []))
 
-(defn usecase-execution [posts user-input]
-  (let [user-input-after-split (content/split-user-from-content user-input "->")
-        user-posts (posting/post @posts user-input-after-split (time/current-time))]
-    (reset! posts user-posts)))
-
 (defn console-loop []
   (loop []
     (let [user-input (read-line)]
       (if (exit-program? user-input)
         (println "FINISHED")
-        (do (usecase-execution all-posts user-input)
+        (do (usecases/usecase-execution all-posts user-input (time/current-time))
             (println @all-posts)
             (recur))))))
 
