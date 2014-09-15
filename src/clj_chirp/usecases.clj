@@ -1,5 +1,6 @@
 (ns clj-chirp.usecases
   (:require [clj-chirp.content :as content]
+            [clj-chirp.following :as following]
             [clj-chirp.formatter :as formatter]
             [clj-chirp.reading :as reading]
             [clj-chirp.posting :as posting]
@@ -27,6 +28,14 @@
       (let [user-posts (:posts all-user-posts)]
         (print (reduce str (map #(one-post-formatted % timestamp) user-posts)))))))
 
+(defn when-following [posts user-input]
+  (if (.contains user-input "follows")
+    (let [user-input-after-split (content/split-user-from-content user-input "follows")
+          user-posts (following/follows @posts user-input-after-split)]
+      (reset! posts user-posts))
+    nil))
+
 (defn usecase-execution [posts user-input timestamp]
   (or (when-posting posts user-input timestamp)
+      (when-following posts user-input)
       (when-reading posts user-input timestamp)))

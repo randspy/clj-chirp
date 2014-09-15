@@ -25,4 +25,12 @@
                         (should= (str "post (1 month ago)\n"
                                       "second post (1 month ago)\n")
                                  (with-out-str
-                                   (usecase-execution @post "user robert" (time/date-time 2014 02)))))))
+                                   (usecase-execution @post "user robert" (time/date-time 2014 02))))))
+          (describe "Following usecase is executed."
+                    (with! post (atom [{:user-name "user bob"}
+                                       {:user-name "user robert"}]))
+                    (it "Posts are updated."
+                        (should= [{:user-name  "user bob"
+                                   :follows ["user robert"]}
+                                  {:user-name  "user robert"}]
+                                 (usecase-execution @post "user bob follows user robert" @timestamp)))))
