@@ -5,17 +5,17 @@
 (describe "User post a message."
           (describe "User text is empty."
                     (it "Returns empty value."
-                        (should= {:user "" :content ""}
+                        (should= {:user-name "" :content ""}
                                  (split-user-from-content "->" "->"))))
           (describe "User text contains only user name."
                     (it "Returns a user with empty post"
-                        (should= {:user "user bob" :content ""}
-                                 (split-user-from-content "user bob ->" "->"))))
+                        (should= {:user-name "user" :content ""}
+                                 (split-user-from-content "user ->" "->"))))
           (describe "Expected data."
                     (it "Returns a user with a post."
-                        (should= {:user "user bob" :content "post"}
-                                 (split-user-from-content "user bob -> post" "->"))))
+                        (should= {:user-name "user" :content "post"}
+                                 (split-user-from-content "user -> post" "->"))))
           (describe "There are more tokens inside text."
                     (it "Returns a user with a post."
-                        (should= {:user "user bob" :content "post ->"}
-                                 (split-user-from-content "user bob -> post ->" "->")))))
+                        (should= {:user-name "user" :content "post ->"}
+                                 (split-user-from-content "user -> post ->" "->")))))

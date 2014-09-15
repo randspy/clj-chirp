@@ -3,38 +3,34 @@
             [clj-chirp.following :refer :all]))
 
 (describe "User follows others."
+          (with user "user")
+          (with followed-user "followed user")
           (it "User does not exist."
               (should= []
-                      (follows [] {:user "user bob" :content ""})))
+                       (follows [] {:user-name @user :content ""})))
           (it "Followed user does not exist."
-              (should= [{:user "user bob"}]
-                       (follows [{:user "user bob"}] {:user "user bob" :content "user robert"})))
+              (should= [{:user-name @user}]
+                       (follows [{:user-name @user}] {:user-name @user :content @followed-user})))
           (it "Can not follow itself"
-              (should= [{:user "user bob"}]
-                       (follows [{:user "user bob"}] {:user "user bob" :content "user bob"})))
+              (should= [{:user-name @user}]
+                       (follows [{:user-name @user}] {:user-name @user :content @user})))
           (it "Followed user name is added."
-              (should= [{:user "user bob" :follows ["user robert"]} {:user "user robert"}]
-                       (follows [{:user "user bob"} {:user "user robert"}]
-                                {:user "user bob" :content "user robert"})))
-          (it "Second followed user name is added."
-              (should= [{:user "user bob" :follows ["user alice" "user robert"]}
-                        {:user "user robert"}
-                        {:user "user alice"}]
-                       (follows [{:user "user bob" :follows ["user robert"]}
-                                 {:user "user robert"}
-                                 {:user "user alice"}]
-                                {:user "user bob" :content "user alice"})))
-          (it "Second followed user name is added."
-              (should= [{:user "user bob" :follows ["user alice" "user robert"]}
-                        {:user "user robert"}
-                        {:user "user alice"}]
-                       (follows [{:user "user bob" :follows ["user robert"]}
-                                 {:user "user robert"}
-                                 {:user "user alice"}]
-                                {:user "user bob" :content "user alice"})))
+              (should= [{:user-name @user :follows [@followed-user]} {:user-name @followed-user}]
+                       (follows [{:user-name @user} {:user-name @followed-user}]
+                                {:user-name @user :content @followed-user})))
           (it "User should not be followed twice."
-              (should= [{:user "user bob" :follows ["user robert"]}
-                        {:user "user robert"}]
-                       (follows [{:user "user bob" :follows ["user robert"]}
-                                 {:user "user robert"}]
-                                {:user "user bob" :content "user robert"}))))
+              (should= [{:user-name @user :follows [@followed-user]}
+                        {:user-name @followed-user}]
+                       (follows [{:user-name @user :follows [@followed-user]}
+                                 {:user-name @followed-user}]
+                                {:user-name @user :content @followed-user})))
+          (describe "More users are folloed"
+                    (with alredy-followed-user "alredy followed user")
+                    (it "Second followed user name is added."
+                        (should= [{:user-name @user :follows [@alredy-followed-user @followed-user]}
+                                  {:user-name @alredy-followed-user}
+                                  {:user-name @followed-user}]
+                                 (follows [{:user-name @user :follows [@alredy-followed-user]}
+                                           {:user-name @alredy-followed-user}
+                                           {:user-name @followed-user}]
+                                 {:user-name @user :content @followed-user})))))

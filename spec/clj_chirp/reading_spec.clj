@@ -3,27 +3,37 @@
             [clj-chirp.reading :refer :all]
             [clj-time.core :as time]))
 
-(describe "Reads user posts."
+(describe "clj-chirp.reading"
+          (with content "post")
           (with timestamp (time/date-time 2014))
-          (it "There is no user posts"
-              (should= {}
-                       (read-user-posts [] "user bob")))
-          (it "There is no match for the user"
-              (should= {}
-                       (read-user-posts [{:user "user bob"
-                                          :posts [{:content "post" :timestamp @timestamp}]}]
-                                        "user robert")))
-          (it "There is a post"
-              (should= {:user "user bob" :posts [{:content "post" :timestamp @timestamp}
-                                                 {:content "other post" :timestamp @timestamp}]}
-                       (read-user-posts [{:user "user bob"
-                                          :posts [{:content "post" :timestamp @timestamp}
-                                                  {:content "other post" :timestamp @timestamp}]}]
-                                        "user bob")))
-          (it "There are many users"
-              (should= {:user "user bob" :posts [{:content "post" :timestamp @timestamp}]}
-                       (read-user-posts [{:user "user robert"
-                                          :posts [{:content "post" :timestamp @timestamp}]}
-                                         {:user "user bob"
-                                          :posts [{:content "post" :timestamp @timestamp}]}]
-                                        "user bob"))))
+          (with user "user")
+          (describe "There are no user posts."
+                    (it "Returns nothing."
+                        (should= {}
+                                 (read-user-posts [] @user))))
+          (describe "There is no match for the user."
+                    (it "Returns nothing."
+                        (should= {}
+                                 (read-user-posts
+                                   [{:user-name @user
+                                     :posts     [{:content @content :timestamp @timestamp}]}]
+                                   "not existing user"))))
+          (describe "There are posts."
+                    (it "Read user posts."
+                        (should= {:user-name @user
+                                  :posts [{:content @content :timestamp @timestamp}
+                                          {:content @content :timestamp @timestamp}]}
+                                 (read-user-posts
+                                   [{:user-name @user
+                                     :posts [{:content @content :timestamp @timestamp}
+                                             {:content @content :timestamp @timestamp}]}]
+                                   @user))))
+          (describe "There are many users."
+                    (with diffrent-user "diffrent user")
+                    (it "Correct user is read."
+                        (should= {:user-name @user :posts [{:content @content :timestamp @timestamp}]}
+                                 (read-user-posts [{:user-name @diffrent-user
+                                                    :posts     [{:content @content :timestamp @timestamp}]}
+                                                   {:user-name @user
+                                                    :posts     [{:content @content :timestamp @timestamp}]}]
+                                                  @user)))))

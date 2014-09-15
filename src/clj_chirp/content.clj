@@ -10,4 +10,4 @@
                  user-input (re-pattern split-token) number-of-split-elements)
         user-name (first tokens)
         post (clojure.string/join (second tokens))]
-    {:user (trim user-name) :content (trim post)}))
+    {:user-name (trim user-name) :content (trim post)}))

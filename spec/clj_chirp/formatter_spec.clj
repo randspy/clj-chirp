@@ -2,7 +2,7 @@
   (:require [speclj.core :refer :all]
             [clj-chirp.formatter :refer :all]))
 
-(describe "Posts are translated into user friendly strings."
+(describe "clj-chirp.formatter"
           (it "Nothing to format."
               (should= ""
                        (format-post {})))
