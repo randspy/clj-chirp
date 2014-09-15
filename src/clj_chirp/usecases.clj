@@ -25,8 +25,9 @@
 (defn when-reading [posts user-input timestamp]
   (let [all-user-posts (reading/read-user-posts @posts user-input)]
     (if (seq all-user-posts)
-      (let [user-posts (:posts all-user-posts)]
-        (print (reduce str (map #(one-post-formatted % timestamp) user-posts)))))))
+      (let [user-posts (:posts all-user-posts)
+            sorted-posts (reverse (sort-by :timestamp user-posts))]
+        (print (reduce str (map #(one-post-formatted % timestamp) sorted-posts)))))))
 
 (defn when-following [posts user-input]
   (if (.contains user-input "follows")

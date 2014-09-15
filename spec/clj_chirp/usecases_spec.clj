@@ -22,8 +22,8 @@
                     (around [it]
                             (with-out-str (it)))
                     (it "Post is send to the standard output"
-                        (should= (str "post (1 month ago)\n"
-                                      "second post (1 month ago)\n")
+                        (should= (str"second post (1 month ago)\n"
+                                     "post (1 month ago)\n")
                                  (with-out-str
                                    (usecase-execution @post "user robert" (time/date-time 2014 02))))))
           (describe "Following usecase is executed."
