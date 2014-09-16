@@ -11,9 +11,10 @@
                                  (show-wall [] @user))))
           (describe "User is not following anybody."
                     (with not-followed-user "not followed user")
+                    (with content "content")
                     (it "Returns user posts."
-                        (should= [{:user-name @user :content "post"}]
-                                 (show-wall [{:user-name @user :posts [{:content "post"}]}
+                        (should= [{:user-name @user :content @content}]
+                                 (show-wall [{:user-name @user :posts [{:content @content}]}
                                              {:user-name @not-followed-user}]
                                             @user))))
           (describe "User is following other users."
