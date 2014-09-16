@@ -4,7 +4,7 @@
   (= 1 (:time-diff post)))
 
 (defn format-post [post]
-  (if (< 0 (count post))
+  (if (seq post)
     (let [time-unit-word-ending (if (singular? post) "" "s")]
       (str (:content post) " ("
            (:time-diff post) " "

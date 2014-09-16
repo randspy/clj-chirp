@@ -10,15 +10,18 @@
     (time/interval first-date second-date)
     (time/interval second-date first-date)))
 
-(defn- rest-of-seq-nil? [sequence]
+(defn- last-unit? [sequence]
   (nil? (seq (rest sequence))))
+
+(defn- corrent-unit-for-time-diff [diff-in-unit]
+  (not= 0 diff-in-unit))
 
 (defn- time-difference-with-correct-unit [units time-diff]
   (loop [units units]
     (let [unit-function (:function (first units))
           diff-in-unit (unit-function time-diff)]
-      (if (or (not= 0 diff-in-unit)
-              (rest-of-seq-nil? units))
+      (if (or (corrent-unit-for-time-diff diff-in-unit)
+              (last-unit? units))
         {:time-unit (:text (first units)) :time-diff diff-in-unit}
         (recur (rest units))))))
 

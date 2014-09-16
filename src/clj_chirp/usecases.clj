@@ -17,21 +17,21 @@
 
 (defn when-posting [posts user-input timestamp]
   (if (.contains user-input "->")
-    (let [user-input-after-split (content/split-user-from-content user-input "->")
+    (let [user-input-after-split (content/split-user-name-from-content user-input "->")
           user-posts (posting/post @posts user-input-after-split timestamp)]
       (reset! posts user-posts))
     nil))
 
 (defn when-following [posts user-input]
   (if (.contains user-input "follows")
-    (let [user-input-after-split (content/split-user-from-content user-input "follows")
+    (let [user-input-after-split (content/split-user-name-from-content user-input "follows")
           user-posts (following/follows @posts user-input-after-split)]
       (reset! posts user-posts))
     nil))
 
 (defn when-wall [posts user-input timestamp]
   (if (.contains user-input "wall")
-    (let [user-name (:user-name (content/split-user-from-content user-input "wall"))
+    (let [user-name (:user-name (content/split-user-name-from-content user-input "wall"))
           all-user-posts (wall/show-wall @posts user-name)]
       (if (seq all-user-posts)
         (print (user-posts-in-string

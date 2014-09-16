@@ -4,15 +4,14 @@
             [clj-chirp.time :as time])
   (:gen-class))
 
-(defn exit-program? [user-input]
-  (= (.toUpperCase user-input) "EXIT"))
-
 (def all-posts (atom []))
 
 (defn print-prompt []
   (print "> ")
   (flush))
 
+(defn exit-program? [user-input]
+  (= (.toUpperCase user-input) "EXIT"))
 
 (defn console-loop []
   (loop []

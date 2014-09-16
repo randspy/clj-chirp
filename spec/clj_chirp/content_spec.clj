@@ -6,16 +6,16 @@
           (describe "User text is empty."
                     (it "Returns empty value."
                         (should= {:user-name "" :content ""}
-                                 (split-user-from-content "->" "->"))))
+                                 (split-user-name-from-content "->" "->"))))
           (describe "User text contains only user name."
                     (it "Returns a user with empty post"
                         (should= {:user-name "user" :content ""}
-                                 (split-user-from-content "user ->" "->"))))
+                                 (split-user-name-from-content "user ->" "->"))))
           (describe "Expected data."
                     (it "Returns a user with a post."
                         (should= {:user-name "user" :content "post"}
-                                 (split-user-from-content "user -> post" "->"))))
+                                 (split-user-name-from-content "user -> post" "->"))))
           (describe "There are more tokens inside text."
                     (it "Returns a user with a post."
                         (should= {:user-name "user" :content "post ->"}
-                                 (split-user-from-content "user -> post ->" "->")))))
+                                 (split-user-name-from-content "user -> post ->" "->")))))
