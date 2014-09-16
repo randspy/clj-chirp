@@ -4,8 +4,16 @@
             [clj-chirp.formatter :as formatter]
             [clj-chirp.reading :as reading]
             [clj-chirp.posting :as posting]
+            [clj-chirp.wall :as wall]
             [clj-chirp.time :as time]))
 
+(defn one-post-formatted [post timestamp formatter]
+  (let [time-diff (time/time-diffrence (:timestamp post) timestamp)]
+    (str (formatter (merge post time-diff)) "\n")))
+
+(defn user-posts-in-string [all-user-posts timestamp formatter]
+  (let [sorted-posts (reverse (sort-by :timestamp all-user-posts))]
+    (reduce str (map #(one-post-formatted % timestamp formatter) sorted-posts))))
 
 (defn when-posting [posts user-input timestamp]
   (if (.contains user-input "->")
@@ -14,21 +22,6 @@
       (reset! posts user-posts))
     nil))
 
-
-(defn one-post-formatted [post timestamp]
-  (let [time-diff (time/time-diffrence (:timestamp post) timestamp)]
-    (str (formatter/format-post {:content   (:content post)
-                                 :time-diff (:time-diff time-diff)
-                                 :time-unit (:time-unit time-diff)})
-         "\n")))
-
-(defn when-reading [posts user-input timestamp]
-  (let [all-user-posts (reading/read-user-posts @posts user-input)]
-    (if (seq all-user-posts)
-      (let [user-posts (:posts all-user-posts)
-            sorted-posts (reverse (sort-by :timestamp user-posts))]
-        (print (reduce str (map #(one-post-formatted % timestamp) sorted-posts)))))))
-
 (defn when-following [posts user-input]
   (if (.contains user-input "follows")
     (let [user-input-after-split (content/split-user-from-content user-input "follows")
@@ -36,7 +29,23 @@
       (reset! posts user-posts))
     nil))
 
+(defn when-wall [posts user-input timestamp]
+  (if (.contains user-input "wall")
+    (let [user-name (:user-name (content/split-user-from-content user-input "wall"))
+          all-user-posts (wall/show-wall @posts user-name)]
+      (if (seq all-user-posts)
+        (print (user-posts-in-string
+                 all-user-posts timestamp formatter/format-post-with-user-name))))
+    nil))
+
+(defn when-reading [posts user-input timestamp]
+  (let [all-user-posts (reading/read-user-posts @posts user-input)]
+    (if (seq all-user-posts)
+      (print (user-posts-in-string
+               (:posts all-user-posts) timestamp formatter/format-post)))))
+
 (defn usecase-execution [posts user-input timestamp]
   (or (when-posting posts user-input timestamp)
       (when-following posts user-input)
+      (when-wall posts user-input timestamp)
       (when-reading posts user-input timestamp)))

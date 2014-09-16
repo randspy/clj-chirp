@@ -10,3 +10,6 @@
            (:time-diff post) " "
            (:time-unit post) time-unit-word-ending " ago)"))
     ""))
+
+(defn format-post-with-user-name [post]
+  (str (:user-name post) " - " (format-post post)))
