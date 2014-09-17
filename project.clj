@@ -9,5 +9,5 @@
                                   [speclj-notify-osd "0.0.2"]]}}
   :plugins [[speclj "3.1.0"]]
   :test-paths ["spec"]
-  :main clj-chirp.core
-  :aot [clj-chirp.core])
+  :main clj-chirp.main
+  :aot [clj-chirp.main])

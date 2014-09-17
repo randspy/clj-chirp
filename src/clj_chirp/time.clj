@@ -16,7 +16,9 @@
 (defn- corrent-unit-for-time-diff [diff-in-unit]
   (not= 0 diff-in-unit))
 
-(defn- time-difference-with-correct-unit [units time-diff]
+(defn- time-difference-with-correct-unit
+  "Loops over functions till finds time resolution where value is bigger than 0."
+  [units time-diff]
   (loop [units units]
     (let [unit-function (:function (first units))
           diff-in-unit (unit-function time-diff)]

@@ -1,4 +1,4 @@
-(ns clj-chirp.core
+(ns clj-chirp.main
   (:require [clj-chirp.usecases :as usecases]
             [clj-chirp.posting :as posting]
             [clj-chirp.time :as time])
