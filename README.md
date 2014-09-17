@@ -57,4 +57,4 @@ Examples
 
 Copyright (C) 2014 Przemyslaw Koziel
 
-Distributed under the The MIT License.
+Distributed under the MIT License.
