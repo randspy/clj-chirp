@@ -18,9 +18,7 @@ Possible operations
     following: <user name> follows <another user>
     wall: <user name> wall
     
-To exit program write
-
-    exit
+    exit: exit
    
 Examples
 
@@ -52,9 +50,13 @@ Examples
     Bob - Good game though. (1 minute ago)
     Bob - Damn! We lost! (2 minutes ago)
     Alice - I love the weather today (5 minutes ago)
+
+To run unit tests
+
+    lein spec
     
 ## License
 
 Copyright (C) 2014 Przemyslaw Koziel
 
-Distributed under the MIT License.
+Distributed under The MIT License.
