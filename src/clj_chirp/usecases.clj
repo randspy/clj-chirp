@@ -7,14 +7,6 @@
             [clj-chirp.wall :as wall]
             [clj-chirp.time :as time]))
 
-(defn- one-formatted-post [post timestamp formatter]
-  (let [time-diff (time/time-diffrence (:timestamp post) timestamp)]
-    (str (formatter (merge post time-diff)) "\n")))
-
-(defn- formatted-posts [posts timestamp formatter]
-  (let [sorted-posts (reverse (sort-by :timestamp posts))]
-    (reduce str (map #(one-formatted-post % timestamp formatter) sorted-posts))))
-
 (defn- token-with-position-in-text [text token]
   (let [position (.indexOf text token)]
     (if (< -1 position)
@@ -34,7 +26,6 @@
       (reset! all-users-posts user-posts))
     nil))
 
-
 (defn- when-following [all-users-posts user-input]
   (if (first-marker-in-text? user-input "follows")
     (let [user-input-after-split (content/split-user-name-from-content user-input "follows")
@@ -47,15 +38,15 @@
     (let [user-name (:user-name (content/split-user-name-from-content user-input "wall"))
           user-posts-with-follewed-ones (wall/show-wall @all-users-posts user-name)]
       (if (seq user-posts-with-follewed-ones)
-        (print (formatted-posts
-                 user-posts-with-follewed-ones timestamp formatter/format-post-with-user-name))))
+        (print (formatter/formatted-posts
+                 user-posts-with-follewed-ones time/time-diffrence timestamp))))
     nil))
 
 (defn- when-reading [all-users-posts user-input timestamp]
   (let [user-posts (reading/read-user-posts @all-users-posts user-input)]
     (if (seq user-posts)
-      (print (formatted-posts
-               (:posts-values user-posts) timestamp formatter/format-post)))))
+      (print (formatter/formatted-posts
+               (:posts-values user-posts) time/time-diffrence timestamp)))))
 
 (defn usecase-execution [all-users-posts user-input timestamp]
   (or (when-posting all-users-posts user-input timestamp)
