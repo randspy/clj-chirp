@@ -36,7 +36,8 @@ Examples
     Good game though. (1 minute ago)
     Damn! We lost! (2 minutes ago)
     
-    Following: Charlie can subscribe to Alice’s and Bob’s timelines, and view an aggregated list of all subscriptions
+    Following: Charlie can subscribe to Alice’s and Bob’s timelines, 
+    and view an aggregated list of all subscriptions
     
     > Charlie -> I'm in New York today! Anyone want to have a coffee?
     > Charlie follows Alice

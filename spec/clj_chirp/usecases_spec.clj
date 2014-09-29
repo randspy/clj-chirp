@@ -34,7 +34,7 @@
                               (with followed-user "->")
                               (with! post (atom [{:user-name "user"}
                                                  {:user-name "->"}]))
-                              (it "Posts are updated."
+                              (it "New followed is added intead of a new post."
                                   (should= [{:user-name  @user
                                              :follows #{@followed-user}}
                                             {:user-name  @followed-user}]

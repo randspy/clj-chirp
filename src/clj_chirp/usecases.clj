@@ -8,7 +8,7 @@
             [clj-chirp.wall :as wall]
             [clj-chirp.time :as time]))
 
-(defn- token-with-position-in-text [text token]
+(defn- tokens-position-in-text [text token]
   (let [position (.indexOf text token)]
     (if (< -1 position)
       {:token token :token-position position}
@@ -17,7 +17,7 @@
 (defn- first-marker-in-text? [text token]
   (let [tokens-with-their-position
         (remove nil?
-                (map #(token-with-position-in-text text %) markers/all-markers))]
+                (map #(tokens-position-in-text text %) markers/all-markers))]
     (= token (:token (first (sort-by :token-position tokens-with-their-position))))))
 
 (defn- when-posting [all-users-posts user-input timestamp]
