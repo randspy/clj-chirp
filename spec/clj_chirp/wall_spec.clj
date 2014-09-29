@@ -14,7 +14,7 @@
                     (with content "content")
                     (it "Returns user posts."
                         (should= [{:user-name @user :content @content}]
-                                 (show-wall [{:user-name @user :posts [{:content @content}]}
+                                 (show-wall [{:user-name @user :posts-values [{:content @content}]}
                                              {:user-name @not-followed-user}]
                                             @user))))
           (describe "User is following other users."
@@ -25,7 +25,7 @@
                                   {:user-name @followed-user :content @content}]
                                  (show-wall [{:user-name @user
                                               :follows [@followed-user]
-                                              :posts [{:content @content}]}
+                                              :posts-values [{:content @content}]}
                                              {:user-name @followed-user
-                                              :posts [{:content @content}]}]
+                                              :posts-values [{:content @content}]}]
                                             @user)))))
