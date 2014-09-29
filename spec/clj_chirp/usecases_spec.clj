@@ -27,7 +27,7 @@
                     (with usecase-token "follows")
                     (it "Posts are updated."
                         (should= [{:user-name  @user
-                                   :follows [@followed-user]}
+                                   :follows    #{@followed-user}}
                                   {:user-name  @followed-user}]
                                  (usecase-execution @post (str @user @usecase-token @followed-user) timestamp)))
                     (describe "Follows user with post marker in content."
@@ -36,7 +36,7 @@
                                                  {:user-name "->"}]))
                               (it "Posts are updated."
                                   (should= [{:user-name  @user
-                                             :follows [@followed-user]}
+                                             :follows #{@followed-user}}
                                             {:user-name  @followed-user}]
                                            (usecase-execution @post (str @user @usecase-token @followed-user) timestamp)))))
           (describe "Wall usecase is executed."

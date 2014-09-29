@@ -15,22 +15,22 @@
               (should= [{:user-name @user}]
                        (follows [{:user-name @user}] {:user-name @user :content @user})))
           (it "Followed user name is added."
-              (should= [{:user-name @user :follows [@followed-user]} {:user-name @followed-user}]
+              (should= [{:user-name @user :follows #{@followed-user}} {:user-name @followed-user}]
                        (follows [{:user-name @user} {:user-name @followed-user}]
                                 {:user-name @user :content @followed-user})))
           (it "User should not be followed twice."
-              (should= [{:user-name @user :follows [@followed-user]}
+              (should= [{:user-name @user :follows #{@followed-user}}
                         {:user-name @followed-user}]
-                       (follows [{:user-name @user :follows [@followed-user]}
+                       (follows [{:user-name @user :follows #{@followed-user}}
                                  {:user-name @followed-user}]
                                 {:user-name @user :content @followed-user})))
-          (describe "More users are folloed"
+          (describe "More users are followed"
                     (with alredy-followed-user "alredy followed user")
                     (it "Second followed user name is added."
-                        (should= [{:user-name @user :follows [@alredy-followed-user @followed-user]}
+                        (should= [{:user-name @user :follows #{@alredy-followed-user @followed-user}}
                                   {:user-name @alredy-followed-user}
                                   {:user-name @followed-user}]
-                                 (follows [{:user-name @user :follows [@alredy-followed-user]}
+                                 (follows [{:user-name @user :follows #{@alredy-followed-user}}
                                            {:user-name @alredy-followed-user}
                                            {:user-name @followed-user}]
                                  {:user-name @user :content @followed-user})))))
