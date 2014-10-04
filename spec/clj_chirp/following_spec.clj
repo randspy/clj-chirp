@@ -7,21 +7,21 @@
           (with followed-user "followed user")
           (it "User does not exist."
               (should= []
-                       (follows [] {:user-name @user :content ""})))
+                       (follow [] {:user-name @user :content ""})))
           (it "Followed user does not exist."
               (should= [{:user-name @user}]
-                       (follows [{:user-name @user}] {:user-name @user :content @followed-user})))
+                       (follow [{:user-name @user}] {:user-name @user :content @followed-user})))
           (it "Can not follow itself"
               (should= [{:user-name @user}]
-                       (follows [{:user-name @user}] {:user-name @user :content @user})))
+                       (follow [{:user-name @user}] {:user-name @user :content @user})))
           (it "Followed user name is added."
               (should= [{:user-name @user :follows #{@followed-user}} {:user-name @followed-user}]
-                       (follows [{:user-name @user} {:user-name @followed-user}]
+                       (follow [{:user-name @user} {:user-name @followed-user}]
                                 {:user-name @user :content @followed-user})))
           (it "User should not be followed twice."
               (should= [{:user-name @user :follows #{@followed-user}}
                         {:user-name @followed-user}]
-                       (follows [{:user-name @user :follows #{@followed-user}}
+                       (follow [{:user-name @user :follows #{@followed-user}}
                                  {:user-name @followed-user}]
                                 {:user-name @user :content @followed-user})))
           (describe "More users are followed"
@@ -30,7 +30,7 @@
                         (should= [{:user-name @user :follows #{@alredy-followed-user @followed-user}}
                                   {:user-name @alredy-followed-user}
                                   {:user-name @followed-user}]
-                                 (follows [{:user-name @user :follows #{@alredy-followed-user}}
+                                 (follow [{:user-name @user :follows #{@alredy-followed-user}}
                                            {:user-name @alredy-followed-user}
                                            {:user-name @followed-user}]
                                  {:user-name @user :content @followed-user})))))

@@ -10,7 +10,7 @@
 (defn- possition-of-existing-post-for-replacement [posts user]
   (.indexOf posts user))
 
-(defn follows [all-users-posts new-follow-post]
+(defn follow [all-users-posts new-follow-post]
   (let [user (find/find-by-user-name all-users-posts (:user-name new-follow-post))
         followed-user (find/find-by-user-name all-users-posts (:content new-follow-post))]
     (if (and user followed-user)
